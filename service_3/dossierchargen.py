@@ -4,7 +4,7 @@ import string
 
 app = Flask(__name__)
 
-@app.route('/dossierletter)
+@app.route('/dossierletter')
 def get_letters():
 
     char_list = []
@@ -15,7 +15,7 @@ def get_letters():
         char_list.append(random.choice(letter_list))
         count += 1
 
-    return jsonify({data:char_list})
+    return jsonify({'data':char_list})
 
 if __name__ == '__main__':
     app.run(port=5002, host='0.0.0.0')
