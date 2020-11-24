@@ -11,19 +11,19 @@ def index():
     num_list_responce = requests.get(service_2_api + '/dossiernum')
     char_list_responce = requests.get(service_3_api + '/dossierletter')
 
-    num_list = str(num_list_responce.json()["data"])
-    char_list = str(char_list_responce.json()["data"])
+    num_list = list(num_list_responce.json()["data"])
+    char_list = list(char_list_responce.json()["data"])
 
     count = 0
     finalDossier = ""
 
     while count < 6:
-        finalDossier = finalDossier + num_list[count]
-        finalDossier = finalDossier + char_list[count]
+        finalDossier += str(num_list[count]) + " "
+        finalDossier += str(char_list[count]) + " "
         count += 1
 
     #return(finalDossier)
-    return(finalDossier + " numlist: " + num_list + " charlist: " + char_list)
+    return(finalDossier)
 
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')
