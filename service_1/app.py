@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 service_2_api = 'http://localhost:5001'
 service_3_api = 'http://localhost:5002'
+service_4_api = 'http://localhost:5003'
 
 @app.route('/')
 def index():
@@ -20,39 +21,20 @@ def index():
     first_num = str(num_list[0])
     first_letter = str(char_list[0])
 
-    task = ""
-    target = ""
-
-    if (first_num == "19"):
-        task="Steal the DB_URI from"
-    elif (int(first_num) % 3) == 0:
-        task="Follow"
-    elif (int(first_num) >= 10):
-        task="Collect information about"
-    else:
-        task="Meet with"
-
-    vowles = "aeiou"
-    chars1 = "bcdfghj"
-    chars2 = "klmnpqr"
-
-    if first_letter == "z":
-        target=" the flask developer"
-    elif first_letter in vowles:
-        target=" the double agent"
-    elif first_letter in chars1:
-        target=" the dictator"
-    elif first_letter in chars2:
-        target=" the head of Odin"
-    else:
-        target=" Duchess"
-
     while count < 6:
         finalDossier += str(num_list[count]) + " "
         finalDossier += str(char_list[count]) + " "
         count += 1
 
-    #return(finalDossier)
+    print(service_4_api + '/dossierchar/' + first_letter)
+    print(service_4_api + '/dossiernum/' + first_num)
+
+    targetResponce = requests.post(service_4_api + '/dossierchar/' + first_letter)
+    taskResponce = requests.post(service_4_api + '/dossiernum/' + first_num)
+
+    task = str(taskResponce.json()["data"])
+    target = str(targetResponce.json()["data"])
+
     return render_template('index.html', finalDossier=finalDossier, task=task, target=target)
 
 if __name__ == '__main__':
