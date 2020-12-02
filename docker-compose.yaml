@@ -5,34 +5,49 @@ services:
     ports:
     - target: 5000
     deploy:
-      replicas: 3
+      replicas: 1
+    depends_on:
+      - database
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
   service_2:
     image: thomashennessy/dossiernumgen:mission
     ports:
     - target: 5001
     deploy:
-      replicas: 3
+      replicas: 1
   service_3:
     image: thomashennessy/dossierchargen:mission
     ports:
     - target: 5002
     deploy:
-      replicas: 3
+      replicas: 1
   service_4:
     image: thomashennessy/missiongen:mission
     ports:
     - target: 5003
     deploy:
-      replicas: 4
+      replicas: 1
   nginx:
     image: nginx:latest
     ports:
     - published: 80
       target: 80
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
     depends_on:
-    - service_1
-      service_2
-      service_3
-      service_4
+      - service_1
   database:
-
+    image: thomashennessy/missiondb:mission
+    ports:
+    - target: 3306
+    volumes:
+    - type: volume
+      source: mission_data
+      target: /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+volumes:
+  mission_data:
