@@ -6,7 +6,6 @@ from os import getenv
 app = Flask(__name__)
 db = SQLAlchemy(app)
 db_password = getenv('MYSQL_ROOT_PASSWORD')
-print(db_password)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:' + db_password + '@database:3306/database'
 
