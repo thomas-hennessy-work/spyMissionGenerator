@@ -26,13 +26,20 @@ class TestBase(TestCase):
 class TestTask(TestBase):
     def testURITask(self):
         with patch("requests.get") as g:
-            with patch("requests.get") as h:
-                with patch("requests.post") as i:
-                    with patch("requests.post") as j:
-                        g.return_value.json.return_value = ({'data':['19','1','1','1','1','1']})
-                        h.return_value.json.return_value = ({'data':['a','a','a','a','a','a']})
-                        i.return_value.json.return_value = ({'data':'Steal the DB_URI from'})
-                        j.return_value.json.return_value = ({'data':'the double agent'})
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['19','1','1','1','1','1']})
+                h.return_value.json.return_value = ({'data':'Steal the DB_URI from'})
 
-                        responce = self.client.get(url_for('index'))
-                        self.assertIn(b'Steal the DB_URI from the double agent', responce.data)
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'19 1 1 1 1 1', responce.data)
+                self.assertIn(b'Steal the DB_URI from', responce.data)
+
+    def testFolowTask(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['6','1','1','1','1','1']})
+                h.return_value.json.return_value = ({'data':'Follow'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'6 1 1 1 1 1', responce.data)
+                self.assertIn(b'Follow', responce.data)
