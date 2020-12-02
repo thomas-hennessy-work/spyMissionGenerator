@@ -1,11 +1,23 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLALchemy
 import requests
+from os import getenv
 
 app = Flask(__name__)
+db = SQLALchemy(app)
+db_password = getenv('MYSQL_ROOT_PASSWORD')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:'+db_password+'@database:3306/myAppDB'
 
 service_2_api = 'http://localhost:5001'
 service_3_api = 'http://localhost:5002'
 service_4_api = 'http://localhost:5003'
+
+class Mission(db.Model):
+    mission_id = db.Column(db.Integer, primary_key=True)
+    dossier_num = db.Column(db.String(63), nullable=False)
+    mission_obj = db.Column(db.String(63), nullable=False)
+    mission_trgt = db.Column(db.String(63), nullable=False)
 
 @app.route('/')
 def index():
@@ -34,6 +46,12 @@ def index():
 
     task = str(taskResponce.json()["data"])
     target = str(targetResponce.json()["data"])
+
+    mission_to_add = Mission(dossier_num=finalDossier,
+                mission_obj=task,
+                mission_trgt=target)
+    db.session.add(mission_to_add)
+    db.session.commit()
 
     return render_template('index.html', finalDossier=finalDossier, task=task, target=target)
 
