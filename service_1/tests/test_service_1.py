@@ -43,3 +43,65 @@ class TestTask(TestBase):
                 responce = self.client.get(url_for('index'))
                 self.assertIn(b'6 1 1 1 1 1', responce.data)
                 self.assertIn(b'Follow', responce.data)
+
+    def testCollectTask(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['13','1','1','1','1','1']})
+                h.return_value.json.return_value = ({'data':'Collect information about'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'13 1 1 1 1 1', responce.data)
+                self.assertIn(b'Collect information about', responce.data)
+
+    def testMeetTask(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['7','1','1','1','1','1']})
+                h.return_value.json.return_value = ({'data':'Meet with'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'7 1 1 1 1 1', responce.data)
+                self.assertIn(b'Meet with', responce.data)
+
+class TestTarget(TestBase):
+    def testFlaskDev(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['z','a','a','a','a','a']})
+                h.return_value.json.return_value = ({'data':'the flask developer'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'z a a a a a', responce.data)
+                self.assertIn(b'the flask developer', responce.data)
+
+    def testDouble(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['a','a','a','a','a','a']})
+                h.return_value.json.return_value = ({'data':'the double agent'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'a a a a a a', responce.data)
+                self.assertIn(b'the double agent', responce.data)
+
+    def testDictator(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['b','a','a','a','a','a']})
+                h.return_value.json.return_value = ({'data':'the dictator'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b'b a a a a a', responce.data)
+                self.assertIn(b'the dictator', responce.data)
+
+    def testDuchess(self):
+        with patch("requests.get") as g:
+            with patch("requests.post") as h:
+                g.return_value.json.return_value = ({'data':['s','a','a','a','a','a']})
+                h.return_value.json.return_value = ({'data':'the head of Duchess'})
+
+                responce = self.client.get(url_for('index'))
+                self.assertIn(b's a a a a a', responce.data)
+                self.assertIn(b'the head of Duchess', responce.data)
+
