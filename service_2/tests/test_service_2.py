@@ -8,20 +8,6 @@ from dossiernumgen import app
 
 class TestBase(TestCase):
     def create_app(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-        
-        #Creates the tables for data to be input
-        engine = create_engine('sqlite:///data.db')
-        meta = MetaData()
-        missions = Table(
-            'missions', meta,
-            Column('mission_id', Integer, primary_key = True),
-            Column('dossier_num', String),
-            Column('mission_obj', String),
-            Column('mission_trgt', String)
-        )
-        meta.create_all(engine)
-
         return app
 
 class TestNumGeneration(TestBase):
