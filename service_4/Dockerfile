@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5003
 
-ENTRYPOINT ["python", "missiongen.py"]
+ENTRYPOINT ["gunicorn", "--workers=2", "-b", "0.0.0.0:5003", "missiongen:app"]

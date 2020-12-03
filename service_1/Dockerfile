@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000
 
-ENTRYPOINT ["python", "app.py"]
+ENTRYPOINT ["gunicorn", "--workers=2", "-b", "0.0.0.0:5000", "app:app"]
