@@ -4,7 +4,7 @@ pipeline{
     stages{
         stage('unit test service 1'){
             environment{
-                PASSWORD=$PASSWORD
+                PASSWORD=$"PASSWORD"
             }
             steps{
                 sh "bash scripts/service_1_unittests.sh" 
