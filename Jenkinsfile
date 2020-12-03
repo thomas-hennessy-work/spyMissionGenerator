@@ -2,7 +2,7 @@
 pipeline{
     agent any
     environment {
-        MYSQL_ROOT_PASSWORD=$PASSWORD
+        MYSQL_ROOT_PASSWORD = $PASSWORD
     }
     stages{
         stage('unit test service 1'){
