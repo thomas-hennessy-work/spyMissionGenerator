@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5001
 
-ENTRYPOINT ["python", "dossiernumgen.py"]
+ENTRYPOINT ["gunicorn", "--workers=2", "-b", "0.0.0.0:5001", "dossiernumgen:app"]
