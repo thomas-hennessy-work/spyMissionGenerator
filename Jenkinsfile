@@ -1,9 +1,6 @@
   
 pipeline{
     agent any
-    environment{
-        PASSWORD=${PASSWORD}
-    }
     stages{
         stage('unit test service 1'){
             steps{
