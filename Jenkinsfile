@@ -3,6 +3,9 @@ pipeline{
     agent any
     stages{
         stage('unit test service 1'){
+            environment{
+                PASSWORD=$PASSWORD
+            }
             steps{
                 sh "bash scripts/service_1_unittests.sh" 
             }
