@@ -1,17 +1,16 @@
-[swarm-manager]
-127.0.0.1
+[swarm-managers]
+swarm-manager
 
-[swarm-worker]
+[swarm-workers]
 worker-1
 worker-2
 
-[swarm-manager:vars]
-ansible_connection=local
-ansible_user=thoma
+[swarm-managers:vars]
+ansible_user=thomas_louis_hennessy
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-[swarm-worker:vars]
-ansible_user=thoma
+[swarm-workers:vars]
+ansible_user=thomas_louis_hennessy
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 ansible_ssh_private_key_file=~/.ssh/id_rsa
