@@ -37,5 +37,10 @@ pipeline{
                 sh "bash scripts/launchSwarm.sh"
             }
         }
+        stage('run ansible'){
+            steps{
+                sh "bash scripts/runAnsible.sh"
+            }
+        }
     }
 }
