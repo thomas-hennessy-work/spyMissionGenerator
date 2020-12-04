@@ -4,37 +4,37 @@ pipeline{
     stages{
         stage('unit test service 1'){
             steps{
-                sh ". scripts/service_1_unittests.sh" 
+                sh "bash scripts/service_1_unittests.sh" 
             }
         }
         stage('unit test service 2'){
             steps{
-                sh ". scripts/service_2_unittests.sh" 
+                sh "bash scripts/service_2_unittests.sh" 
             }
         }
         stage('unit test service 3'){
             steps{
-                sh ". scripts/service_3_unittests.sh" 
+                sh "bash scripts/service_3_unittests.sh" 
             }
         }
         stage('unit test service 4'){
             steps{
-                sh ". scripts/service_4_unittests.sh" 
+                sh "bash scripts/service_4_unittests.sh" 
             }
         }
         stage('build stage'){
             steps{
-                sh ". scripts/buildImages.sh"
+                sh "bash scripts/buildImages.sh"
             }
         }
         stage('push builds'){
             steps{
-                sh ". scripts/pushBuilds.sh"
+                sh "bash scripts/pushBuilds.sh"
             }
         }
         stage('run ansible'){
             steps{
-                sh ". scripts/runAnsible.sh"
+                sh "bash scripts/runAnsible.sh"
             }
         }
         stage('run application'){
@@ -44,8 +44,8 @@ pipeline{
                     [ ! -d spyMissionGenerator ] && git clone https://github.com/thomas-hennessy-work/spyMissionGenerator.git 
                     cd spyMissionGenerator
                     git pull
-                    . scripts/buildImages.sh
-                    . scripts/launchSwarm.sh
+                    bash scripts/buildImages.sh
+                    bash scripts/launchSwarm.sh
                     '''
                 }
             }
