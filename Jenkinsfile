@@ -41,7 +41,7 @@ pipeline{
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-manager', keyFileVariable: 'PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'USER')]) {
                     sh'''ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager
-                    [[ ! -d spyMissionGenerator ]] && git clone https://github.com/thomas-hennessy-work/spyMissionGenerator.git 
+                    [ ! -d spyMissionGenerator ] && git clone https://github.com/thomas-hennessy-work/spyMissionGenerator.git 
                     cd spyMissionGenerator
                     git pull
                     bash scripts/buildImages.sh
