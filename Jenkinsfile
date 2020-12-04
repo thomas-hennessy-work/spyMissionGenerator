@@ -41,7 +41,7 @@ pipeline{
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-manager', keyFileVariable: 'PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'USER')]) {
                     sh'''ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager
-                    cd /home/${USER}/spyMissionGenerator
+                    cd /home/thomas_louis_hennessy
                     git pull
                     bash scripts/buildImages.sh
                     bash scripts/launchSwarm.sh
