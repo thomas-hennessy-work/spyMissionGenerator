@@ -1,0 +1,37 @@
+- name: Install requiered packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+- name: adding docker GPG key
+  apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+- name: add Docker repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: update and install docker (community eddition)
+  apt: update_cache=yes name=docker-ce state=latest
+
+- name: install dockers python module
+  pip:
+    executable: pip3
+    name: docker
+
+- name: start docker
+  service: 
+    name: docker
+    state: started
+
+- name: install docker pip package
+  pip:
+    executable: pip3
+    name: docker
+
+- name: install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
