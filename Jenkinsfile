@@ -32,11 +32,6 @@ pipeline{
                 sh "bash scripts/pushBuilds.sh"
             }
         }
-        // stage('run application'){
-        //     steps{
-        //         sh "bash scripts/launchSwarm.sh"
-        //     }
-        // }
         stage('run ansible'){
             steps{
                 sh "bash scripts/runAnsible.sh"
