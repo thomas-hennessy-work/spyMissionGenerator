@@ -39,13 +39,14 @@ pipeline{
         }
         stage('run application'){
             steps{
-                sh """withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-manager', keyFileVariable: 'PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'USER')]) {
-                    ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager
+                withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-manager', keyFileVariable: 'PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'USER')]) {
+                    sh'''ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager
                     cd spyMissionGenerator
                     git pull
                     bash scripts/buildImages.sh
                     bash scripts/launchSwarm.sh
-                } """
+                    '''
+                }
             }
         }
     }
