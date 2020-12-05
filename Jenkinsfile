@@ -43,6 +43,7 @@ pipeline{
                     sh'''ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager << EOF
                         [ ! -d spyMissionGenerator ] && git clone https://github.com/thomas-hennessy-work/spyMissionGenerator.git 
                         cd spyMissionGenerator
+                        export PASSWORD=${PASSWORD}
                         git pull
                         bash scripts/buildImages.sh
                         bash scripts/launchSwarm.sh
