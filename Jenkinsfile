@@ -32,14 +32,23 @@ pipeline{
                 sh "bash scripts/pushBuilds.sh"
             }
         }
-        stage('run application'){
-            steps{
-                sh "bash scripts/launchSwarm.sh"
-            }
-        }
         stage('run ansible'){
             steps{
                 sh "bash scripts/runAnsible.sh"
+            }
+        }
+        stage('run application'){
+            steps{
+                withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-ssh-manager', keyFileVariable: 'PRIVATE_KEY', passphraseVariable: '', usernameVariable: 'USER')]) {
+                    sh'''ssh -i ${PRIVATE_KEY} ${USER}@swarm-manager << EOF
+                        [ ! -d spyMissionGenerator ] && git clone https://github.com/thomas-hennessy-work/spyMissionGenerator.git 
+                        cd spyMissionGenerator
+                        export PASSWORD=${PASSWORD}
+                        git pull
+                        bash scripts/buildImages.sh
+                        bash scripts/launchSwarm.sh
+                    '''
+                }
             }
         }
     }
