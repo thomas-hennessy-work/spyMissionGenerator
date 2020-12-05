@@ -46,7 +46,6 @@ pipeline{
                         git pull
                         bash scripts/buildImages.sh
                         bash scripts/launchSwarm.sh
-                    EOF
                     '''
                 }
             }
