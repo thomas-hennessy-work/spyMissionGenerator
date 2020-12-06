@@ -50,7 +50,17 @@ The application consists of 4 services and a database. The user accesses the sys
 ![Image of the system structure](Images/appstructure.jpg)
 
 ### Continuous integration server
-The continuous integration server goes through a variety of steps from receiving the source code to deploying the application in the live environment. The steps are outlined bellow.
+I began the development of the CI server using the pipeline developed for the practice project, which is shown bellow.
+
+![Image of the old CI server flow](Images/Old_server_flow.jpg)
+
+This iteration of the CI server was not suitable for the requirements of this project. This configuration of the CI server performed a role closer to that of a build server. Whilst it had the capability of unit testing, the server would not launch the application to the live environment, instead deploying the application on the Jenkins server. The first steps of the CI pipeline were in place, having the application unit tested, then built and then the image being pushed, but additional steps needed to be configured.
+
+To make server closer to a CI server , I needed to have a live environment and to deploy the application in that environment. To configure the environment, I used ansible to install and configure docker swarm on the three virtual machines hosting the application. I then added a step to SSH in to the live environment and either deploy or update the application on those virtual machines.
+
+I additionally needed the builds to be automated, as it was unnecessary for a person to manually start the builds. To fix this, I added a web hook from the SCM to the Jenkins server, which detected any pushes to the master branch. This would instruct the build server to send the source code through the pipeline automatically.
+
+The updated continuous integration server's pipeline can be found bellow.
 
 ![Image of the CI server flow](Images/CI_server_flow.jpg)
 
