@@ -5,7 +5,7 @@ services:
     ports:
     - target: 5000
     deploy:
-      replicas: 1
+      replicas: 3
     depends_on:
       - database
     environment:
@@ -15,19 +15,19 @@ services:
     ports:
     - target: 5001
     deploy:
-      replicas: 1
+      replicas: 3
   service_3:
     image: thomashennessy/dossierchargen:mission
     ports:
     - target: 5002
     deploy:
-      replicas: 1
+      replicas: 3
   service_4:
     image: thomashennessy/missiongen:mission
     ports:
     - target: 5003
     deploy:
-      replicas: 1
+      replicas: 3
   nginx:
     image: nginx:latest
     ports:
