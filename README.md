@@ -15,38 +15,41 @@ The application requires the following dependencies to run. The dependencies can
 - gunicorn==20.0.4
 
 The dependencies required for the application can be installed using [pip](https://pip.pypa.io/en/stable/) with the command:
-`pip install -r requierments.txt` 
+`pip install -r requierments.txt`
 Python3 will additionally need to be installed.
 
-### Build server
-- **Jenkins**:
-The build server.
-- **Ansible**:
-Used by the build server to configure the virtual machines running the application
+### CI server
+-  **Jenkins**:
+The CI server.
+-  **Ansible**:
+Used by the CI server to configure the virtual machines running the application
 
 ### Docker
- - **Docker**:
+-  **Docker**:
 Used to create images and run containers.
-- **Docker swarm**:
+-  **Docker swarm**:
 Used to deploy, manage and configure a group of containers simultaneously.
-- **Docker hub**:
+-  **Docker hub**:
 Repository for pushing to and storing built images.
 
 ### Misc tools
- - **Google cloud platform**:
-Hosts the virtual machines used for the build server and the virtual machines hosting the application.
-- **Visual studio code**:
+-  **Google cloud platform**:
+Hosts the virtual machines used for the CI server and the virtual machines hosting the application.
+-  **Visual studio code**:
 Code editor used for creating the application and its configuration files.
 
 ## Documentation
 ### ERD
 The database used in the application is very simple consisting of one table. The database stores information regarding the dossier number, the missions target and the mission objective.
-
 ![Image of the systems ERD](Images/erd.jpg)
 
 ### Application structure
 The application consists of 4 services and a database. The user accesses the system via Nginx, which will load balance incoming traffic. The user is directed to service 1. Service 1, will obtain the number half of the mission dossier from service 2 and the letter half of the mission dossier from service 3. With these two halves of the mission dossier created, the system will send them to service 4 which will decide what the task and target are and return them to service 1. Service 1 will then store the information about the mission in the database and present the dossier to the user.
 ![Image of the system structure](Images/appstructure.jpg)
+
+### Continuous integration server
+The continuous integration server goes through a variety of steps from receiving the source code to deploying the application in the live environment. The steps are outlined bellow.
+![Image of the CI server flow](Images/CI_server_flow.jpg)
 
 ### Risk assessment
 ![Image of the risk assessment](Images/riskassesmentpt1.jpg)
@@ -56,13 +59,17 @@ The application consists of 4 services and a database. The user accesses the sys
 All 4 of the services are unit tested, reaching a total coverage of 95%
 ### Service 1
 98% coverage
+
 ![Image of service 1's unit tests](Images/unit_tests/service_1_tests.jpg)
 ### Service 2
 92% coverage
+
 ![Image of service 1's unit tests](Images/unit_tests/service_2_tests.jpg)
 ### Service 3
 93% coverage
+
 ![Image of service 1's unit tests](Images/unit_tests/service_3_tests.jpg)
 ### Service 4
 97% coverage
+
 ![Image of service 1's unit tests](Images/unit_tests/service_4_tests.jpg)
