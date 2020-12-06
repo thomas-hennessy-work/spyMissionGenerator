@@ -37,6 +37,8 @@ Repository for pushing to and storing built images.
 Hosts the virtual machines used for the CI server and the virtual machines hosting the application.
 -  **Visual studio code**:
 Code editor used for creating the application and its configuration files.
+- **Trello**
+The user epics and stories are organized using a trello board [Trello board](https://trello.com/b/2ShfPFFM/dev-ops-core-practical-project-sprint-product-backlog)
 
 ## Documentation
 ### ERD
@@ -45,9 +47,21 @@ The database used in the application is very simple consisting of one table. The
 ![Image of the systems ERD](Images/erd.jpg)
 
 ### Application structure
-The application consists of 4 services and a database. The user accesses the system via Nginx, which will load balance incoming traffic. The user is directed to service 1. Service 1, will obtain the number half of the mission dossier from service 2 and the letter half of the mission dossier from service 3. With these two halves of the mission dossier created, the system will send them to service 4 which will decide what the task and target are and return them to service 1. Service 1 will then store the information about the mission in the database and present the dossier to the user.
+The application structure I began with from the practice project was as follows.
+
+![Image of the old system structure](Images/old_appstructure.jpg)
+
+This structure was lacking in vital areas that are needed for the deliverable. To begin with, the main applications structure consisted of 2 service and not the requisite 4. This was the first modification that needed to be made. Rather than having one GET request from service 1 to service 2 and then a POST request from service 1 to service 2, two GET requests were set up. From service 1, one goes to service 2 and the other to service 3, to gather the two halves of the randomly generated actionable data. Then using this data, service 1 makes two POST requests to service 4, creating the final mission for the data created in services 2 and 3.
+
+The original structure had the load balancer Nginx directing traffic to service 1, which was exactly what was needed. I only want the application to be accessible through service 1, with the rest of the requests being made internally.
+
+However, the database service of the application was completely missing. I added the database service and connected it to service 1. Just before the application returns the result of the mission to the user, the mission parameters are stored within the database.
+
+The final system structure can be found bellow.
 
 ![Image of the system structure](Images/appstructure.jpg)
+
+To summarise, the application consists of 4 services and a database. The user accesses the system via Nginx, which will load balance incoming traffic. The user is directed to service 1. Service 1, will obtain the number half of the mission dossier from service 2 and the letter half of the mission dossier from service 3. With these two halves of the mission dossier created, the system will send them to service 4 which will decide what the task and target are and return them to service 1. Service 1 will then store the information about the mission in the database and finally, present the dossier to the user.
 
 ### Continuous integration server
 I began the development of the CI server using the pipeline developed for the practice project, which is shown bellow.
@@ -63,6 +77,10 @@ I additionally needed the builds to be automated, as it was unnecessary for a pe
 The updated continuous integration server's pipeline can be found bellow.
 
 ![Image of the CI server flow](Images/CI_server_flow.jpg)
+
+The order of the pipeline stages is organized in a way so as to avoid wasting time/resources. The unit tests are performed first, as they use containers that are usually already running and as such are not very process intensive. Additionally, if the unit tests fail, it would be wasteful to build or push an image, as the image dose not performed the required tasks, and of course, source code that has not passed unit tests should never be deployed to a live environment.
+
+The building and pushing of images occur before deployment, as this requires very little time in comparison to the ansible configurations and the SSH deployment of the application. Additionally, I feel it is more important to create a backup of the images before deploying them, as this will make things far easier to repair, should any issues occur during the deployment.
 
 ### Risk assessment
 ![Image of the risk assessment](Images/riskassesmentpt1.jpg)
