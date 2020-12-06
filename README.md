@@ -82,6 +82,11 @@ The order of the pipeline stages is organized in a way so as to avoid wasting ti
 
 The building and pushing of images occur before deployment, as this requires very little time in comparison to the ansible configurations and the SSH deployment of the application. Additionally, I feel it is more important to create a backup of the images before deploying them, as this will make things far easier to repair, should any issues occur during the deployment.
 
+### Virtual machine structure
+The structure of the live environment in which the application is run is very simple. It consists of 3 virtual machines in a docker swarm. One machine acts as the swarm manager whilst the other two act as the workers. When the CI server performs SSH actions on the live environment, such as deployment or application updates, it is via the manager node.
+
+![Image of the virtual machine structure](Images/vm_structure.jpg)
+
 ### Risk assessment
 ![Image of the risk assessment](Images/riskassesmentpt1.jpg)
 ![Image of the risk assessment](Images/riskassesmentpt2.jpg)
