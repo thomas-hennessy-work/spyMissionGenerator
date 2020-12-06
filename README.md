@@ -109,3 +109,30 @@ All 4 of the services are unit tested, reaching a total coverage of 95%
 97% coverage
 
 ![Image of service 1's unit tests](Images/unit_tests/service_4_tests.jpg)
+
+## Application usage
+The application will present the user with a mission dossier, including a randomly generated dosser number and mission generated from the dossier number. The mission objective can be one of four options and is based upon the first number in the mission dossier. This is decided by the following coded:
+
+```python
+if (firstnum == "19"):
+	task="Steal the DB_URI from"
+elif (int(firstnum) % 3) == 0:
+	task="Follow"
+elif (int(firstnum) >= 10):
+	task="Collect information about"
+else:
+	task="Meet with"
+```
+The mission target is decided in a similar way to the objective, though it is decided via the first letter present within the dossier. It is decided with the following code :
+```python
+if firstchar == "z":
+	target=" the flask developer"
+elif firstchar in vowles:
+	target=" the double agent"
+elif firstchar in chars1:
+	target=" the dictator"
+elif firstchar in chars2:
+	target=" the head of Odin"
+else:
+	target=" Duchess"
+```
