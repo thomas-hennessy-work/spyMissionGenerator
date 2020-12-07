@@ -57,6 +57,8 @@ The original structure had the load balancer Nginx directing traffic to service 
 
 However, the database service of the application was completely missing. I added the database service and connected it to service 1. Just before the application returns the result of the mission to the user, the mission parameters are stored within the database.
 
+An issue that was discovered during development was that a Web Server Gateway Interface was missing from the application, which would have made scalability of the application harder. To resolve this, I changed the entry point of the services' docker files to use Gunicorn, rather than using python3. This allowed for the application to be run using Gunicorn and thus, the workers assigned to a process could be changed.
+
 The final system structure can be found bellow.
 
 ![Image of the system structure](Images/appstructure.jpg)
@@ -66,7 +68,7 @@ To summarise, the application consists of 4 services and a database. The user ac
 ### Continuous integration server
 I began the development of the CI server using the pipeline developed for the practice project, which is shown bellow.
 
-![Image of the old CI server flow](Images/Old_server_flow_diagram.jpg)
+![Image of the old CI server flow](Images/Old_server_flow.jpg)
 
 This iteration of the CI server was not suitable for the requirements of this project. This configuration of the CI server performed a role closer to that of a build server. Whilst it had the capability of unit testing, the server would not launch the application to the live environment, instead deploying the application on the Jenkins server. The first steps of the CI pipeline were in place, having the application unit tested, then built and then the image being pushed, but additional steps needed to be configured.
 
@@ -136,3 +138,9 @@ elif firstchar in chars2:
 else:
 	target=" Duchess"
 ```
+## Future improvements
+
+ - More thorough use of the Kanban board
+ - The method of passing the DB password to the live environment
+ - Using a Nexus server to store docker images
+ - Expanding the usage of the database
