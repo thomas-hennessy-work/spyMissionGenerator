@@ -66,7 +66,7 @@ To summarise, the application consists of 4 services and a database. The user ac
 ### Continuous integration server
 I began the development of the CI server using the pipeline developed for the practice project, which is shown bellow.
 
-![Image of the old CI server flow](Images/Old_server_flow.jpg)
+![Image of the old CI server flow](Images/Old_server_flow_diagram.jpg)
 
 This iteration of the CI server was not suitable for the requirements of this project. This configuration of the CI server performed a role closer to that of a build server. Whilst it had the capability of unit testing, the server would not launch the application to the live environment, instead deploying the application on the Jenkins server. The first steps of the CI pipeline were in place, having the application unit tested, then built and then the image being pushed, but additional steps needed to be configured.
 
