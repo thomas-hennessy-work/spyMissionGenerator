@@ -68,7 +68,7 @@ To summarise, the application consists of 4 services and a database. The user ac
 ### Continuous integration server
 I began the development of the CI server using the pipeline developed for the practice project, which is shown bellow.
 
-![Image of the old CI server flow](Images/Old_server_flow_diagram.jpg)
+![Image of the old CI server flow](Images/Old_server_flow.jpg)
 
 This iteration of the CI server was not suitable for the requirements of this project. This configuration of the CI server performed a role closer to that of a build server. Whilst it had the capability of unit testing, the server would not launch the application to the live environment, instead deploying the application on the Jenkins server. The first steps of the CI pipeline were in place, having the application unit tested, then built and then the image being pushed, but additional steps needed to be configured.
 
@@ -83,6 +83,10 @@ The updated continuous integration server's pipeline can be found bellow.
 The order of the pipeline stages is organized in a way so as to avoid wasting time/resources. The unit tests are performed first, as they use containers that are usually already running and as such are not very process intensive. Additionally, if the unit tests fail, it would be wasteful to build or push an image, as the image dose not performed the required tasks, and of course, source code that has not passed unit tests should never be deployed to a live environment.
 
 The building and pushing of images occur before deployment, as this requires very little time in comparison to the ansible configurations and the SSH deployment of the application. Additionally, I feel it is more important to create a backup of the images before deploying them, as this will make things far easier to repair, should any issues occur during the deployment.
+
+#### Docker build logs
+Once a build is completed by the CI server, information about deployment activities are stored on the Jenkins server. This includes the console outputs, any changes between it and the previous build as well as other information.
+![Image of a log of the CI pipeline build activities](Images/example_build_activities.jpg)
 
 ### Virtual machine structure
 The structure of the live environment in which the application is run is very simple. It consists of 3 virtual machines in a docker swarm. One machine acts as the swarm manager whilst the other two act as the workers. When the CI server performs SSH actions on the live environment, such as deployment or application updates, it is via the manager node.
